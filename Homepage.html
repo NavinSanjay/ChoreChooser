@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sunexplosioncountdown</title>
+
+    <link href="app.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>CHORE CHOOZER HOMEPAGE</header>
+
+    <!--The homepage is where users will get redirected to their username homepage. Using "Homepage" now as temporary -->
+    <!-- They can set/See their chore list here. Can see the Slave list here too  -->
+    <!-- <form action = "/list" method="post" id="SlaveInput" autocomplete="on" > -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="small mb-1">Workers</label>
+                <input id = "worker_class" type="text">
+                <button id = "Submits" onclick="returnWorkers()">Enter</button>
+            </div>
+        </div>
+
+        <!-- Inputting the Chores -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="small mb-1">Chores</label>
+                <input class="form-control " name="Chore_class" id="Chore_class"/>
+                <button onclick="returnText()" id="Submit">Enter</button>
+            </div>
+        </div>
+
+        <!-- Table displaying workers and chores -->
+        <table class = "table table-bordered" id="Main_table" width = "100%" cellspacing = "0">
+            <tr>
+                <td>Slaves</td>
+                <td>Chores</td>
+            </tr>
+
+        </table>
+
+
+
+
+    <!-- </form> -->
+
+    <script type="text/javascript" src="app.js"></script>
+
+
+</body>
+
+
+
+</html>
