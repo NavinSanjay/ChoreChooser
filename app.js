@@ -24,8 +24,6 @@ function returnChores(){
 }
 
 
-var click = document.getElementById('Submits');
-click.addEventListener('click',addRow('Main_table'));
 
 
 //Adding User inputs to the table
