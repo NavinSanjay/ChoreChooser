@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
-<body>
+<body id = "body">
     <header>CHORE CHOOZER HOMEPAGE</header>
 
     <!--The homepage is where users will get redirected to their username homepage. Using "Homepage" now as temporary -->
@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label class="small mb-1">Workers</label>
                 <input id = "worker_class" type="text">
-                <button id = "Submits" onclick="returnWorkers()">Enter</button>
+                <button id = "submit_slave" type="submit">Enter</button>
             </div>
         </div>
 
@@ -28,20 +28,52 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="small mb-1">Chores</label>
-                <input class="form-control " name="Chore_class" id="Chore_class"/>
-                <button onclick="returnText()" id="Submit">Enter</button>
+                <input id = "Chore_class" type="text">
+                <button id = "submit_chore" type="submit">Enter</button>
             </div>
         </div>
 
         <!-- Table displaying workers and chores -->
-        <table class = "table table-bordered" id="Main_table" width = "100%" cellspacing = "0">
+        <table class = "table table-bordered" id="Slave_table">
             <tr>
-                <td>Slaves</td>
-                <td>Chores</td>
+                <th>Slaves</th>
+            </tr>
+
+        </table>
+        <table class = "table table-bordered" id="Chore_table" >
+            <tr>
+                <th>Chores</th>
+            </tr>
+
+        </table>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="small mb-1">Generate Roster</label>
+                <button id = "Generate" type="submit">Generate</button>
+            </div>
+        </div>
+
+        <table class = "table table-bordered" id="slave_roster_table" >
+            <tr>
+                <th>Slave: </th>
+            </tr>
+
+        </table>
+        <table class = "table table-bordered" id="chore_roster_table" >
+            <tr>
+                <th>Chore: </th>
             </tr>
 
         </table>
 
+        <!-- Confirm roster table -->
+        <div class="col-md-6">
+            <div class="form-group">
+                <!-- <label class="small mb-1"></label> -->
+                <button id = "Confirm" type="submit">Confirm</button>
+            </div>
+        </div>
+        
 
 
 
