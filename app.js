@@ -58,10 +58,22 @@ function addChores(){
 //Add event listener to table
 
 const el = document.getElementById('submit_slave');
+
 el.addEventListener('click',addSlaves,false);
+
+$("#worker_class").keyup(function(event){
+    if (event.keyCode === 13){
+        $("#submit_slave").click()
+    }
+})
 
 const el_1 = document.getElementById('submit_chore');
 el_1.addEventListener('click',addChores,false);
+$("#Chore_class").keyup(function(event){
+    if (event.keyCode === 13){
+        $("#submit_chore").click()
+    }
+})
 
 
 
@@ -248,11 +260,25 @@ while (slave_length > 0){
 
 }
 
+
+
+
+
+
+
+
+
 // Want to set the roster table for the current week
 //Creates a table that has the name, chore, date assigned, completion
-
-//Want to be able to sort the confirmed table by date so users can see previous weeks (up to 4)
 document.getElementById('Confirm').onclick = function(){
+
+    //If table already exists and user presses confirm need to clear the table
+    var conf_table = document.getElementById("confirmed_table")
+    if (conf_table){
+        $("#confirmed_table").remove()
+    }
+
+
     let table = document.createElement('table')
     let thead = document.createElement('thead')
     let tbody = document.createElement('tbody')
@@ -262,6 +288,8 @@ document.getElementById('Confirm').onclick = function(){
 
     //add table to body tag in HTML
     document.getElementById('body').appendChild(table)
+
+    table.setAttribute("id", "confirmed_table");
 
     //Rows and Cols need to be equivalent to slave roster table
 
@@ -275,14 +303,29 @@ document.getElementById('Confirm').onclick = function(){
     let row_1 = document.createElement('tr');
     let heading_1 = document.createElement('th');
     heading_1.innerHTML = "Slave";
+    heading_1.setAttribute("data-column","0") //Setting custom attribute for which coloumn and which order was clicked
+    heading_1.setAttribute("data-order","desc") //Initial is descending
+
     let heading_2 = document.createElement('th');
     heading_2.innerHTML = "Chore";
+    heading_2.setAttribute("data-column","1") //Setting custom attribute for which coloumn and which order was clicked
+    heading_2.setAttribute("data-order","desc") //Initial is descending
+
     let heading_3 = document.createElement('th');
     heading_3.innerHTML = "Completion";
+    heading_3.setAttribute("data-column","2") //Setting custom attribute for which coloumn and which order was clicked
+    heading_3.setAttribute("data-order","desc") //Initial is descending
+
+    let heading_4 = document.createElement('th');
+    heading_4.innerHTML = "Date Assigned";
+    heading_4.setAttribute("data-column","3") //Setting custom attribute for which coloumn and which order was clicked
+    heading_4.setAttribute("data-order","desc") //Initial is descending
+    
 
     row_1.appendChild(heading_1);
     row_1.appendChild(heading_2);
     row_1.appendChild(heading_3);
+    row_1.appendChild(heading_4);
     thead.appendChild(row_1);
 
     for (i=0; i < conf_slaves.length; i++){
@@ -296,17 +339,114 @@ document.getElementById('Confirm').onclick = function(){
         var checkbox = document.createElement("INPUT")
         checkbox.type = "checkbox"
 
+        var date_assigned = new Date();
+
+        let newRowData_3 = document.createElement('td')
+        newRowData_3.innerHTML = date_assigned.toLocaleDateString()
+
         newRow.appendChild(newRowData)
         newRow.appendChild(newRowData_2)
         newRow.appendChild(checkbox)
+        newRow.appendChild(newRowData_3)
+    
         tbody.appendChild(newRow)
 
+
     }
+
+    //Want to be able to sort the confirmed table by date so users can see previous weeks (up to 4)
+
+$('th').click(function(){
+    var column = $(this).data('column')
+    var order = $(this).data('order')
+    console.log("Hello",column,order)
+
+    //Condition if ascending or descending
+
+    if(order == 'desc'){
+        $(this).data('order', "asc")
+
+        const dirModifier = 1 
+
+        //Javascript Sort Method
+        const tBody = document.getElementById("confirmed_table").tBodies[0]
+        const rows = Array.from(tBody.querySelectorAll("tr")) //Getting array of tr's instead of Nodelist from Tbody in table
+
+
+        //Sort each row
+
+        const sortedRows = rows.sort((a,b) => {
+            const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim() //Psedo selecting the text
+            const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim() //Psedo selecting the text
+
+            return aColText > bColText ? (1 * dirModifier ) : (-1 * dirModifier)
+
+        })
+            //Remove all Trs from body
+    while (tBody.firstChild){
+        tBody.removeChild(tBody.firstChild)
+
+    }
+
+    //Readd the new sorted rows
+
+    tBody.append(...sortedRows)
+
+        
+    }else{
+        $(this).data('order', "desc")
+        const dirModifier = 1 
+
+        //Javascript Sort Method
+        const tBody = document.getElementById("confirmed_table").tBodies[0]
+        const rows = Array.from(tBody.querySelectorAll("tr")) //Getting array of tr's instead of Nodelist from Tbody in table
+
+
+        //Sort each row
+
+        const sortedRows = rows.sort((a,b) => {
+            const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim() //Psedo selecting the text
+            const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim() //Psedo selecting the text
+
+            return bColText > aColText ? (1 * dirModifier ) : (-1 * dirModifier)
+
+        })
+            //Remove all Trs from body
+    while (tBody.firstChild){
+        tBody.removeChild(tBody.firstChild)
+
+    }
+
+    //Readd the new sorted rows
+
+    tBody.append(...sortedRows)
+    }
+
+
+    
+})  
 }
 
 
+// const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+// const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+//     v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+//     )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+// // do the work...
+// document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+//     document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+//         const table = th.closest('table');
+//         const tbody = table.querySelector('tbody');
+//         Array.from(tbody.querySelectorAll('tr'))
+//           .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+//           .forEach(tr => tbody.appendChild(tr) );
+//     })))
+// })))
 
 
+// http://jsfiddle.net/ohdr3cvx/10/
 
 
 
