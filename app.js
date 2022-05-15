@@ -305,22 +305,26 @@ document.getElementById('Confirm').onclick = function(){
     heading_1.innerHTML = "Slave";
     heading_1.setAttribute("data-column","0") //Setting custom attribute for which coloumn and which order was clicked
     heading_1.setAttribute("data-order","desc") //Initial is descending
+    heading_1.setAttribute("id","conf_slave") //Setting ID for confirmed table
 
     let heading_2 = document.createElement('th');
     heading_2.innerHTML = "Chore";
     heading_2.setAttribute("data-column","1") //Setting custom attribute for which coloumn and which order was clicked
     heading_2.setAttribute("data-order","desc") //Initial is descending
+    heading_2.setAttribute("id","conf_chore") //Setting ID for confirmed table
 
     let heading_3 = document.createElement('th');
     heading_3.innerHTML = "Completion";
     heading_3.setAttribute("data-column","2") //Setting custom attribute for which coloumn and which order was clicked
     heading_3.setAttribute("data-order","desc") //Initial is descending
+    heading_3.setAttribute("id","conf_completion") //Setting ID for confirmed table
 
     let heading_4 = document.createElement('th');
     heading_4.innerHTML = "Date Assigned";
     heading_4.setAttribute("data-column","3") //Setting custom attribute for which coloumn and which order was clicked
     heading_4.setAttribute("data-order","desc") //Initial is descending
-    
+    heading_4.setAttribute("id","conf_date") //Setting ID for confirmed table
+
 
     row_1.appendChild(heading_1);
     row_1.appendChild(heading_2);
@@ -355,6 +359,39 @@ document.getElementById('Confirm').onclick = function(){
     }
 
     //Want to be able to sort the confirmed table by date so users can see previous weeks (up to 4)
+
+    //Storing Data
+    //Need to save each row into localStorage
+    var arr = new Array()
+    function addData(){
+        getData();
+        let tbl = document.getElementById("confirmed_table").getElementsByTagName('tbody')[0]
+        let row_length = tbl.rows.length
+
+        for (let i = 0; i < row_length ; i++){
+
+            
+            arr.push({
+                //table data
+    
+    
+                
+    
+            })
+
+        }
+        
+    }
+    function getData(){
+        var str = localStorage.getItem("localData")
+
+        if (str != null)
+            arr = JSON.parse(str) //converting the str to array
+
+    }
+    function deleteData(){
+        localStorage.clear()
+    }
 
 $('th').click(function(){
     var column = $(this).data('column')
